@@ -1,0 +1,11 @@
+# Required dependencies for iTerm2 automation
+iterm2>=2.7
+
+# For development and testing, you might want to add:
+# pytest>=6.0          # Modern testing framework
+# pytest-asyncio>=0.21 # Async testing support
+# black>=21.0          # Code formatter
+# flake8>=3.8          # Linting tool
+# coverage>=5.0        # Test coverage reporting
+
+# For now, the package uses Python's built-in unittest module for testing
