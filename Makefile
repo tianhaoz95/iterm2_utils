@@ -1,4 +1,4 @@
-.PHONY: test test-verbose test-ssh test-session test-multi-node test-all clean install install-dev help
+.PHONY: test test-verbose test-ssh test-session test-multi-node test-append-python-path test-all clean install install-dev help
 
 help:
 	@echo "Available commands:"
@@ -7,6 +7,7 @@ help:
 	@echo "  test-ssh          - Run SSH connection tests only"
 	@echo "  test-session      - Run session management tests only"
 	@echo "  test-multi-node   - Run multi-node initialization tests only"
+	@echo "  test-append-python-path - Run append Python path tests only"
 	@echo "  test-all          - Run all tests with detailed coverage"
 	@echo "  clean             - Clean build artifacts and cache"
 	@echo "  install           - Install the package"
@@ -27,6 +28,9 @@ test-session:
 
 test-multi-node:
 	python3 -m pytest tests/test_multi_node_init.py -v
+
+test-append-python-path:
+	python3 -m pytest tests/test_append_python_path_pytest.py -v
 
 test-all:
 	python3 -m pytest tests/ -v --tb=long

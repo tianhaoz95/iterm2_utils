@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-Unit tests for iterm2_utils.session_management module
+Unit tests for sglang_iterm2_utils.session_management module
 """
 
 import unittest
 import asyncio
 import inspect
 from unittest.mock import Mock, AsyncMock, patch, call
-from iterm2_utils.session_management import restart_all_sessions_in_current_tab
+from sglang_iterm2_utils.session_management import restart_all_sessions_in_current_tab
 
 
 class TestSessionManagement(unittest.TestCase):
@@ -35,7 +35,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = None
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -53,7 +53,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -74,7 +74,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -101,7 +101,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -136,7 +136,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -160,7 +160,7 @@ class TestSessionManagement(unittest.TestCase):
 
     async def test_restart_all_sessions_async_get_app_exception(self):
         """Test restart_all_sessions_in_current_tab when async_get_app raises an exception"""
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.side_effect = Exception("Failed to connect to iTerm2")
 
             with self.assertRaises(Exception) as context:
@@ -184,7 +184,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with self.assertRaises(Exception) as context:
@@ -214,7 +214,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -231,7 +231,7 @@ class TestSessionManagement(unittest.TestCase):
 
     def test_restart_all_sessions_module_imports(self):
         """Test that required modules are properly imported"""
-        import iterm2_utils.session_management as sm
+        import sglang_iterm2_utils.session_management as sm
 
         # Check that required modules are available
         self.assertTrue(hasattr(sm, 'iterm2'))
@@ -243,7 +243,7 @@ class TestSessionManagement(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = None
 
-        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             # Test with different connection objects
@@ -288,7 +288,7 @@ class TestSessionManagementAsync(unittest.TestCase):
             mock_app = Mock()
             mock_app.current_terminal_window = mock_window
 
-            with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+            with patch('sglang_iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
                 mock_get_app.return_value = mock_app
 
                 with patch('builtins.print'):

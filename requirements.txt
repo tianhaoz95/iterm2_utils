@@ -1,4 +1,4 @@
-# Required dependencies for iTerm2 automation
+# Required dependencies for SGLang iTerm2 utilities
 iterm2>=2.7
 
 # For development and testing, you might want to add:

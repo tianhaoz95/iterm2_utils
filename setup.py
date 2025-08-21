@@ -4,14 +4,14 @@ with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
 
 setup(
-    name="iterm2-utils",
+    name="sglang-iterm2-utils",
     version="0.1.0",
     author="Your Name",
     author_email="your.email@example.com",
-    description="Utilities for iTerm2 automation and remote machine management",
+    description="SGLang utilities for iTerm2 automation and remote machine management",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/iterm2_utils",
+    url="https://github.com/yourusername/sglang_iterm2_utils",
     packages=find_packages(),
     install_requires=[
         "iterm2>=2.7",

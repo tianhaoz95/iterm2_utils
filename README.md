@@ -1,6 +1,6 @@
-# iterm2_utils
+# sglang_iterm2_utils
 
-Utilities for iTerm2 automation and remote machine management.
+SGLang utilities for iTerm2 automation and remote machine management.
 
 ## Installation
 
@@ -20,7 +20,7 @@ pip install -e .[test]
 
 ```python
 import iterm2
-from iterm2_utils import connect_remote_machines, restart_all_sessions_in_current_tab
+from sglang_iterm2_utils import connect_remote_machines, restart_all_sessions_in_current_tab
 
 async def main(connection):
     # Connect to remote machines via SSH
@@ -37,14 +37,14 @@ iterm2.run_until_complete(main)
 ## Project Structure
 
 ```
-iterm2_utils/
-├── iterm2_utils/           # Main package
+sglang_iterm2_utils/
+├── sglang_iterm2_utils/    # Main package
 │   ├── __init__.py         # Package initialization
 │   ├── ssh_connections.py  # SSH connection utilities
 │   └── session_management.py # Session management utilities
 ├── tests/                  # Test package
 │   ├── __init__.py
-│   └── test_iterm2_utils.py # Unit tests
+│   └── test_sglang_iterm2_utils.py # Unit tests
 ├── pytest.ini             # Pytest configuration
 ├── Makefile               # Development commands
 └── setup.py               # Package setup
@@ -61,8 +61,10 @@ iterm2_utils/
 make test
 
 # 运行特定模块的测试
-make test-ssh      # SSH连接功能测试
-make test-session  # 会话管理功能测试
+make test-ssh                    # SSH连接功能测试
+make test-session                # 会话管理功能测试
+make test-multi-node             # 多节点初始化功能测试
+make test-append-python-path     # Python路径追加功能测试
 
 # 详细输出
 make test-verbose
@@ -78,7 +80,9 @@ python3 -m pytest tests/
 # 运行特定测试文件
 python3 -m pytest tests/test_ssh_connections.py -v
 python3 -m pytest tests/test_session_management.py -v
-python3 -m pytest tests/test_iterm2_utils.py -v
+python3 -m pytest tests/test_multi_node_init.py -v
+python3 -m pytest tests/test_append_python_path_pytest.py -v
+python3 -m pytest tests/test_sglang_iterm2_utils.py -v
 ```
 
 ### 测试覆盖详情

@@ -5,7 +5,7 @@ Unit tests for append_python_path module using pytest
 from unittest.mock import AsyncMock, MagicMock, patch, call
 import pytest
 
-from append_python_path import append_python_paths
+from sglang_iterm2_utils.append_python_path import append_python_paths
 
 
 @pytest.fixture
@@ -33,7 +33,7 @@ def mock_iterm2_objects():
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 @patch('builtins.print')
 async def test_append_python_paths_success(mock_print, mock_get_app, mock_connection, mock_iterm2_objects):
     """Test successful execution with multiple paths and sessions"""
@@ -67,7 +67,7 @@ async def test_append_python_paths_success(mock_print, mock_get_app, mock_connec
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 @patch('builtins.print')
 async def test_no_active_window(mock_print, mock_get_app, mock_connection, mock_iterm2_objects):
     """Test behavior when no active window is found"""
@@ -86,7 +86,7 @@ async def test_no_active_window(mock_print, mock_get_app, mock_connection, mock_
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 @patch('builtins.print')
 async def test_no_active_tab(mock_print, mock_get_app, mock_connection, mock_iterm2_objects):
     """Test behavior when no active tab is found"""
@@ -106,7 +106,7 @@ async def test_no_active_tab(mock_print, mock_get_app, mock_connection, mock_ite
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 @patch('builtins.print')
 async def test_no_sessions(mock_print, mock_get_app, mock_connection, mock_iterm2_objects):
     """Test behavior when no sessions are found"""
@@ -127,7 +127,7 @@ async def test_no_sessions(mock_print, mock_get_app, mock_connection, mock_iterm
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 @patch('builtins.print')
 async def test_empty_python_paths(mock_print, mock_get_app, mock_connection, mock_iterm2_objects):
     """Test behavior with empty python_paths list"""
@@ -152,7 +152,7 @@ async def test_empty_python_paths(mock_print, mock_get_app, mock_connection, moc
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 @patch('builtins.print')
 async def test_single_path_single_session(mock_print, mock_get_app, mock_connection, mock_iterm2_objects):
     """Test with single path and single session"""
@@ -180,7 +180,7 @@ async def test_single_path_single_session(mock_print, mock_get_app, mock_connect
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 async def test_export_command_format(mock_get_app, mock_connection, mock_iterm2_objects):
     """Test that export commands are formatted correctly"""
     # Setup mocks
@@ -206,7 +206,7 @@ async def test_export_command_format(mock_get_app, mock_connection, mock_iterm2_
 
 
 @pytest.mark.asyncio
-@patch('append_python_path.iterm2.async_get_app')
+@patch('sglang_iterm2_utils.append_python_path.iterm2.async_get_app')
 async def test_multiple_sessions_distribution(mock_get_app, mock_connection):
     """Test that commands are sent to all sessions correctly"""
     # Setup mocks

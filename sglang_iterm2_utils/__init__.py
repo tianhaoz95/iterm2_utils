@@ -1,5 +1,5 @@
 """
-iterm2_utils - Utilities for iTerm2 automation and remote machine management
+sglang_iterm2_utils - SGLang utilities for iTerm2 automation and remote machine management
 """
 
 __version__ = "0.1.0"

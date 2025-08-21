@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Unit tests for iterm2_utils.multi_node_init module
+Unit tests for sglang_iterm2_utils.multi_node_init module
 """
 
 import unittest
@@ -8,7 +8,7 @@ import asyncio
 import inspect
 import socket
 from unittest.mock import Mock, AsyncMock, patch, call, MagicMock
-from iterm2_utils.multi_node_init import (
+from sglang_iterm2_utils.multi_node_init import (
     multi_node_init,
     _clear_all_session_buffers,
     _get_main_node_ip,
