@@ -6,7 +6,7 @@ Unit tests for iterm2_utils package
 import unittest
 import asyncio
 from unittest.mock import Mock, AsyncMock, patch, MagicMock
-from iterm2_utils import connect_remote_machines
+from iterm2_utils import connect_remote_machines, restart_all_sessions_in_current_tab
 
 
 class TestIterm2Utils(unittest.TestCase):
@@ -22,17 +22,18 @@ class TestIterm2Utils(unittest.TestCase):
         """Test that the package can be imported correctly"""
         import iterm2_utils
 
-        # Test that we can import the function
-        from iterm2_utils import connect_remote_machines
+        # Test that we can import the functions
+        from iterm2_utils import connect_remote_machines, restart_all_sessions_in_current_tab
 
         # Test metadata
         self.assertEqual(iterm2_utils.__version__, "0.1.0")
         self.assertEqual(iterm2_utils.__author__, "Your Name")
         self.assertIn("connect_remote_machines", iterm2_utils.__all__)
+        self.assertIn("restart_all_sessions_in_current_tab", iterm2_utils.__all__)
 
     def test_connect_remote_machines_function_exists(self):
         """Test that connect_remote_machines function exists and is callable"""
-        from iterm2_utils.core import connect_remote_machines
+        from iterm2_utils.ssh_connections import connect_remote_machines
         self.assertTrue(asyncio.iscoroutinefunction(connect_remote_machines))
 
     async def test_connect_remote_machines_no_window(self):
@@ -41,7 +42,7 @@ class TestIterm2Utils(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = None
 
-        with patch('iterm2_utils.core.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('iterm2_utils.ssh_connections.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -62,7 +63,7 @@ class TestIterm2Utils(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.core.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('iterm2_utils.ssh_connections.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -85,7 +86,7 @@ class TestIterm2Utils(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.core.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('iterm2_utils.ssh_connections.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             with patch('builtins.print') as mock_print:
@@ -115,7 +116,7 @@ class TestIterm2Utils(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.core.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('iterm2_utils.ssh_connections.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             await connect_remote_machines(
@@ -153,7 +154,7 @@ class TestIterm2Utils(unittest.TestCase):
         mock_app = Mock()
         mock_app.current_terminal_window = mock_window
 
-        with patch('iterm2_utils.core.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+        with patch('iterm2_utils.ssh_connections.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
             mock_get_app.return_value = mock_app
 
             await connect_remote_machines(
@@ -176,13 +177,88 @@ class TestIterm2Utils(unittest.TestCase):
     def test_function_signature(self):
         """Test function signature and parameters"""
         import inspect
-        from iterm2_utils.core import connect_remote_machines
+        from iterm2_utils.ssh_connections import connect_remote_machines
 
         sig = inspect.signature(connect_remote_machines)
         params = list(sig.parameters.keys())
 
         self.assertEqual(params, ['connection', 'remote_hosts', 'username'])
         self.assertTrue(asyncio.iscoroutinefunction(connect_remote_machines))
+
+    def test_restart_all_sessions_function_exists(self):
+        """Test that restart_all_sessions_in_current_tab function exists and is callable"""
+        from iterm2_utils.session_management import restart_all_sessions_in_current_tab
+        self.assertTrue(asyncio.iscoroutinefunction(restart_all_sessions_in_current_tab))
+
+    async def test_restart_all_sessions_no_window(self):
+        """Test restart_all_sessions_in_current_tab when no window is available"""
+        # Mock iTerm2 app with no current window
+        mock_app = Mock()
+        mock_app.current_terminal_window = None
+
+        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+            mock_get_app.return_value = mock_app
+
+            with patch('builtins.print') as mock_print:
+                result = await restart_all_sessions_in_current_tab(self.mock_connection)
+
+                mock_print.assert_called_once_with("No active window found.")
+                self.assertIsNone(result)
+
+    async def test_restart_all_sessions_no_tab(self):
+        """Test restart_all_sessions_in_current_tab when no tab is available"""
+        # Mock iTerm2 app with window but no current tab
+        mock_window = Mock()
+        mock_window.current_tab = None
+        mock_app = Mock()
+        mock_app.current_terminal_window = mock_window
+
+        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+            mock_get_app.return_value = mock_app
+
+            with patch('builtins.print') as mock_print:
+                result = await restart_all_sessions_in_current_tab(self.mock_connection)
+
+                mock_print.assert_called_once_with("No active tab found in the current window.")
+                self.assertIsNone(result)
+
+    async def test_restart_all_sessions_success(self):
+        """Test successful execution of restart_all_sessions_in_current_tab"""
+        # Create mock sessions
+        mock_sessions = []
+        for i in range(3):
+            session = Mock()
+            session.async_restart = AsyncMock()
+            mock_sessions.append(session)
+
+        # Mock iTerm2 structure
+        mock_tab = Mock()
+        mock_tab.tab_id = "test_tab_123"
+        mock_tab.sessions = mock_sessions
+        mock_window = Mock()
+        mock_window.current_tab = mock_tab
+        mock_app = Mock()
+        mock_app.current_terminal_window = mock_window
+
+        with patch('iterm2_utils.session_management.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+            mock_get_app.return_value = mock_app
+
+            with patch('builtins.print') as mock_print:
+                await restart_all_sessions_in_current_tab(self.mock_connection)
+
+                # Verify that async_restart was called for each session
+                for session in mock_sessions:
+                    session.async_restart.assert_called_once()
+
+                # Verify print statements
+                expected_calls = [
+                    unittest.mock.call(f"Attempting to restart sessions in tab: {mock_tab.tab_id}"),
+                    unittest.mock.call("Restarting session 1 in tab test_tab_123..."),
+                    unittest.mock.call("Restarting session 2 in tab test_tab_123..."),
+                    unittest.mock.call("Restarting session 3 in tab test_tab_123..."),
+                    unittest.mock.call("All sessions in the current tab have been prompted to restart.")
+                ]
+                mock_print.assert_has_calls(expected_calls)
 
 
 class AsyncTestCase(unittest.TestCase):
@@ -223,7 +299,7 @@ class TestAsync(AsyncTestCase):
             mock_app = Mock()
             mock_app.current_terminal_window = mock_window
 
-            with patch('iterm2_utils.core.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
+            with patch('iterm2_utils.ssh_connections.iterm2.async_get_app', new_callable=AsyncMock) as mock_get_app:
                 mock_get_app.return_value = mock_app
 
                 await connect_remote_machines(mock_connection, remote_hosts, username)

@@ -16,6 +16,13 @@ setup(
     install_requires=[
         "iterm2>=2.7",
     ],
+    extras_require={
+        "test": [
+            "pytest>=7.0",
+            "pytest-asyncio>=0.21.0",
+            "pytest-mock>=3.10.0",
+        ],
+    },
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
